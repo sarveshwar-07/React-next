@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const CrudFunctions = () => {
+
+    const Router= useRouter();
   const [mainData, setMainData] = useState([
     {
       name: "sarvesh",
@@ -60,15 +63,20 @@ const CrudFunctions = () => {
   const HandleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+if(edit){
+    const updatedData = mainData.map((item,index)=> index ===editIndex ?formData:item)
+    setMainData(updatedData)
+    setEdit(false)
+    setEditIndex(null)
+} else {
+    const newData=[...mainData,formData]
+    setMainData(newData)
+     Router.push({
+        pathname:'/cardComponent',
+        query:{data:JSON.stringify(newData)}
+     })
+}
 
-    if (edit) {
-        const UpdatedData = mainData.map((item,index)=> index === editIndex ?formData:item)
-        setMainData(UpdatedData)
-        setEdit(false)
-        setEditIndex(null)
-    } else{
-         setMainData([...mainData,formData])
-    }
     setFormData({
       name: "",
       designation: "",
@@ -78,17 +86,19 @@ const CrudFunctions = () => {
    
   };
 
+ 
+
+
 
   const DeleteTask =(index)=>{
    setMainData(mainData.filter((_,i)=>i !==index))
   }
+const EditTask =(item,index)=>{
+setFormData(item)
+setEdit(true)
+setEditIndex(index)
+}
 
-  const EditTask =(item,index)=>{
-    setFormData(item)
-    setEdit(true)
-    setEditIndex(index)
-
-  }
 
 
   return (
@@ -142,6 +152,9 @@ const CrudFunctions = () => {
           />
           <button type="submit">{edit? 'update':'submit'}</button>
         </form>
+        <div style={{padding:10}}>
+            {/* <button onClick={()=> HandleSubmit()}>Navigate to Card Component</button> */}
+        </div>
       </div>
     </div>
   );
