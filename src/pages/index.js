@@ -29,7 +29,7 @@ const Home = () => {
     >
       <Header
         HeaderText={"Am DashBoard"}
-        ShowIcon={false}
+        ShowIcon={true}
         IconValue={"Hi I am the show"}
       />
       <div style={{ display: "flex", flexDirection: "row" ,flexWrap:'wrap'}}>

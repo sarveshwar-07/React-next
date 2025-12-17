@@ -4,39 +4,41 @@ import { useRouter } from "next/router";
 const CrudFunctions = () => {
 
     const Router= useRouter();
+    const [filter,setFilter] = useState('')
+   
   const [mainData, setMainData] = useState([
     {
       name: "sarvesh",
       designation: "systems engineer",
-      priority: "high",
+      priority: "low",
       duedate: "01-10-2000",
     },
     {
-      name: "sathish",
+      name: "shibi",
       designation: "systems engineer",
-      priority: "high",
+      priority: "low",
       duedate: "01-10-2001",
     },
     {
-      name: "sarvesh1",
+      name: "naveen",
       designation: "systems engineer",
-      priority: "high",
+      priority: "medium",
       duedate: "01-10-2002",
     },
     {
-      name: "sathish1",
+      name: "pavi",
       designation: "systems engineer",
       priority: "high",
       duedate: "01-10-2003",
     },
     {
-      name: "sarvesh2",
+      name: "subha",
       designation: "systems engineer",
-      priority: "high",
+      priority: "medium",
       duedate: "01-10-2004",
     },
     {
-      name: "sathish2",
+      name: "yuva",
       designation: "systems engineer",
       priority: "high",
       duedate: "01-10-2005",
@@ -98,6 +100,25 @@ setFormData(item)
 setEdit(true)
 setEditIndex(index)
 }
+const [filtData,setFiltData] = useState([])
+const [isOpen,setIsOpen] = useState(false)
+ const DropClick =()=>{
+      setIsOpen(prev=>!prev)
+      console.log("dropdown clicked",isOpen)
+    }
+
+
+const DisplayData= mainData.filter(item=> item.name.toLowerCase().includes(filter.toLowerCase()))
+
+const Options =['High', "Medium", "Low"]
+const [selectedPriority,setSelectedPriority] = useState('Priority')
+
+// const ClickOptions=(Options)=>{
+//   console.log(Options,'sarveh is clicked')
+//   setSelectedPriority(Options)
+//   setIsOpen(false)
+// }
+
 
 
 
@@ -106,7 +127,8 @@ setEditIndex(index)
       <div>Welcome to Crud Page</div>
 <h4> Task Table</h4>
       <div>
-        {mainData.map((item,index)=>{
+        
+        {DisplayData.map((item,index)=>{
             return (
                 <div  style={{display:'flex',flexDirection:'row',padding:10,gap:20}} key={item.duedate} >
                     <div >{item.name}</div>
@@ -154,6 +176,28 @@ setEditIndex(index)
         </form>
         <div style={{padding:10}}>
             {/* <button onClick={()=> HandleSubmit()}>Navigate to Card Component</button> */}
+        </div>
+        <div>
+           <div> Filter functionality </div>
+           <input onChange={(e)=>setFilter(e.target.value)} placeholder="Enter name here" value={filter}/>
+        </div>
+        <div>
+          <div style={{margin:'20px 0px'}}> Dropdown Functionality</div>
+          <div style={{border:'1px solid #000000',width:'150px',height:'30px',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'cyan',position:'relative'}}  onClick={DropClick}
+           >
+{/* <div style={{}} >{selectedPriority}</div>
+{ isOpen && <div  style={{border:'1px solid #000000',width:'150px',height:'95px',backgroundColor:'brown',position:'absolute',top:30}}   >
+ {Options.map((Options)=>{
+  return(
+    <>
+    <div key={Options} style={{padding:6,cursor:"pointer",borderBottom:'1px solid #000000',display:'flex',justifyContent:'center'}} onClick={()=>ClickOptions(Options)} >
+      {Options}
+    </div>
+    </>
+  )
+ })} </div>} */}
+ <button onClick={()=>Router.push('/localStorage')}> Navigate</button>
+          </div>
         </div>
       </div>
     </div>
